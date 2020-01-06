@@ -45,3 +45,8 @@ span > i {
 #link-home{
     display: none;
 }
+
+.errorlist{
+    color: greenyellow;
+    font-size: 0.8em;
+}

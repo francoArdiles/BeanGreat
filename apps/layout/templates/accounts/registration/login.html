@@ -15,7 +15,7 @@
 
     <div class="dimmed-form" id="register-form">
         <h3>Inicia Sesión</h3>
-        <form role="form" , method="post">
+        <form role="form" method="post">
             {% csrf_token %}
             <div class="form-group">
             </div>
@@ -30,6 +30,14 @@
                         class="fas fa-lock"></i></span>
                 {{ signInForm.password | edit_field:"class|form-control&placeholder|Contraseña" }}
             </div>
+
+            {% if signInForm.errors %}
+                <ul class="errorlist">
+                    {% for error in signInForm.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
 
             {% if request.GET.next %}
                 <input type="hidden" name="next" value="{{ request.GET.next }}">
@@ -54,28 +62,27 @@
         <h3>Registrarte</h3>
         <form role="form" method="post">
             {% csrf_token %}
+            {% if signUpForm.errors %}
+                <ul class="errorlist">
+                    {% for error in signUpForm.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             <div class="form-group">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i
-                        class="fas fa-user"></i></span>
-                {{ signUpForm.username | edit_field:"class|form-control&placeholder|Nombre de usuario" }}
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fas fa-at"></i></span>
-                {{ signUpForm.email | edit_field:"class|form-control&placeholder|Correo electronico" }}
+                {% for field in signUpForm %}
+                    <div class="input-group">
+                    <span class="input-group-addon"><i class="
+                        {{ field.field.widget.attrs.icon }}"></i></span>
+                        {{ field }}
+                    </div>
+                    {% if field.errors %}
+                            {{ field.errors }}
+                        {% endif %}
+                {% endfor %}
+
             </div>
 
-            <div class="input-group">
-                <span class="input-group-addon"><i
-                        class="fas fa-lock"></i></span>
-                {{ signUpForm.password1 | edit_field:"class|form-control&placeholder|Contraseña" }}
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i
-                        class="fas fa-lock"></i></span>
-                {{ signUpForm.password2 | edit_field:"class|form-control&placeholder|Repita contraseña" }}
-            </div>
             {% if request.GET.next %}
                 <input type="hidden" name="next" value="{{ request.GET.next }}">
             {% endif %}

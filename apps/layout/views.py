@@ -3,14 +3,11 @@ from django.shortcuts import render, redirect
 from ..accounts import forms as account_forms
 
 from .. import constants, utils as utils
-from ..inventory.models import Inventory
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as do_login
 
 from ..codes import models as codes
-
-from django.conf import settings
 
 
 # Aqui se guardan y actualizan los modelos. Aquellos que requieran otras
@@ -44,12 +41,15 @@ def login(request):
         return login_redirect_me(request.user, request)
 
     if request.method == 'POST':
+        print(request.POST.get('submit'))
         # registrarse
         if request.POST.get('submit') == 'sign_up':
             form = account_forms.RegistrationForm(request.POST)
             if form.is_valid():
                 user = form.save()
                 return login_redirect_me(user, request)
+            context['signUpForm'] = form
+            context['signInForm'] = AuthenticationForm()
         # inicio de sesion
         elif request.POST.get('submit') == 'sign_in':
             form = AuthenticationForm(data=request.POST)
@@ -61,9 +61,16 @@ def login(request):
 
                 if user is not None:
                     return login_redirect_me(user, request)
+            context['signInForm'] = form
+            context['signUpForm'] = account_forms.RegistrationForm()
 
-    context['signUpForm'] = account_forms.RegistrationForm()
-    context['signInForm'] = AuthenticationForm()
+    else:
+        context['signUpForm'] = account_forms.RegistrationForm()
+        context['signInForm'] = AuthenticationForm()
+
+    from pprint import pprint
+    pprint(context['signUpForm'])
+    pprint(context['signInForm'])
 
     return render(request, 'accounts/registration/login.html', context)
 
