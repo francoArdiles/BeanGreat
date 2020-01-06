@@ -1,0 +1,36 @@
+{%  extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+Pagina principal de las listas de compra
+
+    {% if shopping_carts.count == 0 %}
+        <div>
+            <p>No tienes Listas de compras creadas</p>
+        </div>
+    {% else %}
+        <ul>
+            {% for shopping_cart in shopping_carts %}
+                <li>
+
+                    <div>
+                        {#            {{ inventory.get_absolute_url }}#}
+{#                        <a href="{{ inventory.get_absolute_url }}">{{ inventory }}</a>#}
+                        <a href="{{ shopping_cart.get_absolute_url }}">{{ shopping_cart }}</a>
+                        <p>{{ shopping_cart.count_items }} items</p>
+                        <p>{{ shopping_cart.count_users }} user(s)</p>
+                    </div>
+
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+{% endblock %}

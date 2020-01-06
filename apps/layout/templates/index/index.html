@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+
+{% endblock %}
+
+
+{% block title %}
+
+{% endblock %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+    <p>Bienvenido {{ user.get_username }}</p>
+    <div class="logout">
+    <a href= {% url 'logout' %}>Cerrar sesión</a>
+    </div>
+{% endif %}
+
+    <a href={% url 'profile' %}>Mi perfil</a>
+
+    <div class="content-block">
+    <a href="{% url 'recipe_book' %}">Explorar recetas</a>
+    </div>
+
+    <div class="content-block">
+    <a href="{% url 'inventories' %}">Ver Despensas</a>
+    </div>
+
+    <div class="content-block">
+    <a href="{% url 'shopping_carts' %}">Listas de compras</a>
+    </div>
+{% endblock %}
+
+

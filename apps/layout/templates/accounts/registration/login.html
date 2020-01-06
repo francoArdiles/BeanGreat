@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% load socialaccount %}
+{% providers_media_js %}
+
+{% load tags %}
+
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'css/accounts/login.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="dimmed-form" id="register-form">
+        <h3>Inicia Sesión</h3>
+        <form role="form" , method="post">
+            {% csrf_token %}
+            <div class="form-group">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i
+                        class="fas fa-user"></i></span>
+                {{ signInForm.username | edit_field:"class|form-control&placeholder|Nombre de usuario" }}
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon"><i
+                        class="fas fa-lock"></i></span>
+                {{ signInForm.password | edit_field:"class|form-control&placeholder|Contraseña" }}
+            </div>
+
+            {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+            {% endif %}
+            <div class="wrapper-btn">
+                <button type="submit" name='submit' value="sign_in"
+                        class="btn btn-block
+                btn-info">
+                    Iniciar sesión
+                </button>
+            </div>
+        </form>
+
+        <div class="wrapper-btn">
+            <a href="{% provider_login_url "google" %}" class="btn btn-block btn-info btn-colored"><i
+                    class="fab fa-google"></i>
+                Inicia sesión con Google</a>
+        </div>
+
+        <h4>o puedes</h4>
+
+        <h3>Registrarte</h3>
+        <form role="form" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i
+                        class="fas fa-user"></i></span>
+                {{ signUpForm.username | edit_field:"class|form-control&placeholder|Nombre de usuario" }}
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fas fa-at"></i></span>
+                {{ signUpForm.email | edit_field:"class|form-control&placeholder|Correo electronico" }}
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon"><i
+                        class="fas fa-lock"></i></span>
+                {{ signUpForm.password1 | edit_field:"class|form-control&placeholder|Contraseña" }}
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i
+                        class="fas fa-lock"></i></span>
+                {{ signUpForm.password2 | edit_field:"class|form-control&placeholder|Repita contraseña" }}
+            </div>
+            {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+            {% endif %}
+            <div class="wrapper-btn">
+                <button type="submit" name='submit' value="sign_up"
+                        class="btn btn-block
+                btn-info">
+                    Registrarse
+                </button>
+            </div>
+        </form>
+
+        <div class="wrapper-btn">
+            <a href="{% provider_login_url "google" %}" class="btn btn-block btn-info btn-colored"><i
+                    class="fab fa-google"></i>
+                Registrarse con cuenta de Google</a>
+        </div>
+    <br>
+    <a href="{% url 'recipe_book' %}"> Continuar sin Registrarse</a>
+    </div>
+
+{% endblock %}

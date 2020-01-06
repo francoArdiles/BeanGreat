@@ -1,0 +1,47 @@
+.btn-colored {
+  background: rgb(26, 124, 125);
+  border: 1px solid rgb(26, 124, 125);
+}
+
+.input-group span {
+    width: 50px;
+}
+
+.input-group {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+span > i {
+    font-size: 2em;
+}
+
+.wrapper-btn {
+    margin-top: 2em;
+}
+
+.input-group > .form-control, .input-group > .input-group-addon,
+.input-group > .input-group > .btn {
+    height: 40px;
+}
+
+.btn{
+  padding: 1em;
+}
+
+.dimmed-form {
+    position: relative;
+    text-align: center;
+    color: #D3D7DA;
+    background: rgb(26, 113, 52);
+    background: linear-gradient(0deg, rgba(26, 113, 52, 1) 0%, rgba(26, 124, 125, 1) 100%);
+  padding: 10% 20% 10% 20%;
+}
+
+.dimmed-form h4{
+  margin: 3em;
+}
+
+#link-home{
+    display: none;
+}

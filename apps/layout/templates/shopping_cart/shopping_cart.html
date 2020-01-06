@@ -1,0 +1,28 @@
+Contenido de la lista
+
+<br>
+
+{% for username in list.username %}
+    <div>
+    <p>
+        {{username}}
+    </p>
+    </div>
+{% endfor %}
+
+
+
+{% if products.count == 0 %}
+    <p>No tienes productos en esta lista</p>
+    {% else %}
+        <ul>
+            {% for product in products %}
+                <li>
+                    <p>
+                        item
+                    </p>
+                </li>
+            {% endfor %}
+
+        </ul>
+{% endif %}

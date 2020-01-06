@@ -1,0 +1,29 @@
+Contenido de una Despensa
+
+<br>
+
+{% for username in inventory.usernames %}
+    <div>
+    <p>
+        {{username}}
+    </p>
+    </div>
+{% endfor %}
+
+
+
+{% if items.count == 0 %}
+    <p>No tienes alimentos en esta despensa</p>
+    {% else %}
+        <ul>
+            {% for item in items %}
+                <li>
+                    <p>
+                        item
+                    </p>
+                </li>
+            {% endfor %}
+
+        </ul>
+{% endif %}
+

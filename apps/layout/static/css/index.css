@@ -1,0 +1,60 @@
+
+.navbar-default {
+    background: #006b68;
+}
+
+body{
+    background: rgba(0, 107, 104, 1);
+    background: -moz-linear-gradient(left, rgba(0, 107, 104, 1) 0%, rgba(20, 127, 124, 1) 45%, rgba(255, 255, 255, 1) 82%, rgba(255, 255, 255, 1) 100%);
+    /*background: -webkit-gradient(left top, right top, color-stop(0%, rgba(0, 107, 104, 1)), color-stop(72%, rgba(255, 255, 255, 1)), color-stop(100%, rgba(255, 255, 255, 1)));*/
+    background: -webkit-linear-gradient(left, rgba(0, 107, 104, 1) 0%, rgba(20, 127, 124, 1) 45%, rgba(255, 255, 255, 1) 82%, rgba(255, 255, 255, 1) 100%);
+    background: -o-linear-gradient(left, rgba(0, 107, 104, 1) 0%, rgba(20, 127, 124, 1) 45%, rgba(255, 255, 255, 1) 82%, rgba(255, 255, 255, 1) 100%);
+    background: -ms-linear-gradient(left, rgba(0, 107, 104, 1) 0%, rgba(20, 127, 124, 1) 45%, rgba(255, 255, 255, 1) 82%, rgba(255, 255, 255, 1) 100%);
+    background: linear-gradient(to right, rgba(0, 107, 104, 1) 0%, rgba(20, 127, 124, 1) 45%, rgba(255, 255, 255, 1) 82%, rgba(255, 255, 255, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#006b68', endColorstr='#ffffff', GradientType=1);
+
+    color: aliceblue;
+    /*font-size: 1.1em;*/
+}
+
+.jumbotron{
+    background: none;
+    margin-right: 17vh;
+}
+
+.bg-image {
+    background-image: url("./../media/bg.png");
+    background-repeat: no-repeat;
+    background-size: 40% 100%;
+    /*opacity: 38%;*/
+    background-position: top right;
+}
+
+.formbox{
+    background: rgba(0, 107, 104, 0.73);
+    padding: 20px;
+    margin: 20px;
+    border-radius: 20px;
+}
+
+
+.formbox h3{
+    text-align: center;
+    font-weight: bold;
+}
+
+.formbox.btn{
+    padding: 0.2em;
+}
+
+.formbox.wrapper-btn{
+    align-content: center;
+    align-items: center;
+    alignment: center;
+    align-self: center;
+    horiz-align: center;
+}
+
+input{
+
+}

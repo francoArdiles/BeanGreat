@@ -1,0 +1,144 @@
+body, html {
+    height: 100%;
+}
+
+/* NAVIGATION BAR*/
+.navbar {
+    background: rgb(26, 113, 52);
+    background: linear-gradient(270deg, rgba(26, 113, 52, 1) 0%, rgba(26, 124, 125, 1) 100%);
+    font-size: 1.3em;
+}
+
+.nav-link {
+    padding: 10px;
+    font-weight: bold;
+}
+
+/*SECTIONS*/
+.section {
+    height: 100vh;
+    width: 100vw;
+}
+
+.jumbotron {
+    height: inherit;
+    background: none;
+}
+
+.img-col {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+/* CAROUSEL */
+/*image full  width half of viewport height*/
+.carousel-inner > .item > img {
+    width: 100%;
+    height: 50vh;
+}
+
+/*indicators 5vh from bottom of image to top*/
+.carousel-indicators {
+    top: 45vh;
+}
+
+/*controls on each side of image*/
+.carousel-control .glyphicon-chevron-right, .carousel-control .icon-next,
+.carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev {
+    top: 25vh;
+}
+/*hiding background of controls*/
+.carousel-control.left, .carousel-control.right {
+    background-image: none !important;
+    filter: none !important;
+}
+
+/*text below image*/
+.description-slide p, .description-slide h3 {
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.description-slide p {
+    font-size: 1.2em
+}
+
+/* Centering title and bottom button*/
+.continue-wrapper, .description-slide h3 {
+    text-align: center;
+    margin-bottom: 5vh;
+    margin-top: 4vh;
+}
+
+.jumbotron-img img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*Register and login environment*/
+
+/*hide content below and make it un-clickable*/
+.dimmer {
+    overflow-y: scroll; /*content inside scrollable*/
+    scrollbar-width: none; /* Hide scrollbar*/
+    display: none;
+    background: rgba(0, 0, 0, .9);
+    /*full page size*/
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+/*hide scrollbar in mozilla*/
+.dimmer::-webkit-scrollbar {
+    display: none;
+}
+
+.dimmed-form {
+    max-width: 400px;
+    min-height: 400px;
+    position: relative;
+    margin: 15% auto;
+    height: 70%;
+    text-align: center;
+    color: #D3D7DA;
+    background: rgb(26, 113, 52);
+    background: linear-gradient(0deg, rgba(26, 113, 52, 1) 0%, rgba(26, 124, 125, 1) 100%);
+    border: 5px solid #D3D7DA;
+    border-radius: 50px;
+    padding: 20px;
+}
+
+#register-form, #login-form {
+    display: none;
+}
+
+.btn-primary {
+    background: rgb(26, 124, 125);
+}
+
+.input-group span {
+    width: 50px;
+}
+
+.input-group {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+span > i {
+    font-size: 2em;
+}
+
+.wrapper-btn {
+    margin-top: 2em;
+}
+
+.input-group > .form-control, .input-group > .input-group-addon,
+.input-group > .input-group > .btn {
+    height: 40px;
+}
