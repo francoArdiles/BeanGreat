@@ -6,4 +6,5 @@ from . import views
 urlpatterns = [
     url(r'^despensas/$', views.inventories, name='inventories'),
     path(r'despensa/<int:pk>/', views.inventory, name='inventory'),
+    url(r'crear-despensa/', views.create_inventory, name='create_inventory')
 ]

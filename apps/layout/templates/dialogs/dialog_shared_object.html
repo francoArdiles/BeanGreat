@@ -16,24 +16,34 @@
   </form>
 </div>
 
-{##}
-{#<div id="users-contain" class="ui-widget">#}
-{#  <h1>Existing Users:</h1>#}
-{#  <table id="users" class="ui-widget ui-widget-content">#}
-{#    <thead>#}
-{#      <tr class="ui-widget-header ">#}
-{#        <th>Name</th>#}
-{#        <th>Email</th>#}
-{#        <th>Password</th>#}
-{#      </tr>#}
-{#    </thead>#}
-{#    <tbody>#}
-{#      <tr>#}
-{#        <td>John Doe</td>#}
-{#        <td>john.doe@example.com</td>#}
-{#        <td>johndoe1</td>#}
-{#      </tr>#}
-{#    </tbody>#}
-{#  </table>#}
-{#</div>#}
+{# Usar ID dinamica#}
+<div id="wrapper_" class="wrapper_form">
+    <form method="post">
+        {% for field in form %}
+            <label for="{{ field.id }}"> {{ field.label }}</label>
+            {{ field }}
+        {% endfor %}
+        <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">>
+    </form>
+</div>
+
+<div id="users-contain" class="ui-widget">
+  <h1>Existing Users:</h1>
+  <table id="users" class="ui-widget ui-widget-content">
+    <thead>
+      <tr class="ui-widget-header ">
+        <th>Name</th>
+        <th>Email</th>
+        <th>Password</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John Doe</td>
+        <td>john.doe@example.com</td>
+        <td>johndoe1</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 <button id="create-user">Create new user</button>

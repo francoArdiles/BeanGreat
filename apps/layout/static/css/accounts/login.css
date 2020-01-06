@@ -50,3 +50,7 @@ span > i {
     color: greenyellow;
     font-size: 0.8em;
 }
+
+.tooltip-blue {
+  --balloon-color: #3f9cff;
+}

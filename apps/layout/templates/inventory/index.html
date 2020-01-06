@@ -6,8 +6,8 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet"
           href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="{% static 'js/ajax_dialog_form.js' %}"></script>
 
-    <script src='{% static 'js/dialog_jq.js' %}'></script>
     <link rel="stylesheet" href="{% static 'css/dialog_jq.css' %}">
 {% endblock %}
 
@@ -18,27 +18,37 @@
 {% block content %}
     Pagina principal de la despensa
 
-    {% if inventories.count == 0 %}
-        <div>
-            <p>No tienes despensas creadas</p>
-        </div>
-    {% else %}
-        <ul>
-            {% for inventory in inventories %}
+    <button id='new-inventory' class="btn btn-colored btn-primary">Crear nueva
+        despensa</button>
+    <div id="inventory-form-wrapper" title="Crear nueva despensa">
+        <form id="inventory-form" method="post">
+            {% csrf_token %}
+            <div class="fieldWrapper">
+                {{ form.name }}
+                <div id="results"></div>
+            </div>
+        </form>
+    </div>
+
+    {#    Muestra los inventarios existentes#}
+    <div class='row-inventories'>
+        <ul id="inventory-list">
+            {% if inventories.count == 0 %}
                 <li>
-                    <div>
-                        <a href="{{ inventory.get_absolute_url }}">{{ inventory }}</a>
-                        <p>{{ inventory.count_items }} items</p>
-                        <p>{{ inventory.count_users }} user(s)</p>
-                    </div>
-
+                    <p>No tienes despensas creadas</p>
                 </li>
-            {% endfor %}
-        </ul>
+            {% else %}
+                {% for inventory in inventories %}
+                    <li>
+                        <div>
+                            <a href="{{ inventory.get_absolute_url }}">{{ inventory }}</a>
+                            <p>{{ inventory.count_items }} items</p>
+                            <p>{{ inventory.count_users }} user(s)</p>
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+    </div>
 
-    {% endif %}
-
-    {% include 'dialogs/dialog_shared_object.html' with object='despensa' %}
-
-    {#    {% include 'dialogs/dialog_shared_object.html' %}#}
 {% endblock %}

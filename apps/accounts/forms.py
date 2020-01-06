@@ -7,7 +7,9 @@ from django.contrib.auth.models import User
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
         'placeholder': 'Correo electronico', 'class': 'form-control', 'icon':
-            'fas fa-at'}), )
+            'fas fa-at'}), help_text='Obligatorio. Introduzca su correo '
+                                     'electrónico. Debe ser una dirección '
+                                     'válida')
 
     class Meta:
         model = User
@@ -32,6 +34,13 @@ class RegistrationForm(UserCreationForm):
         self.fields['password1'].widget = forms.PasswordInput(
             attrs={'class': 'form-control', 'icon': 'fas fa-lock',
                    'placeholder': 'contraseña'})
+        self.fields['password1'].help_text = 'Introduzca su contraseña. Debe ' \
+                                             'contener al menos 8 caracteres.' \
+                                             ' No pueden ser sólo números. No' \
+                                             ' debe ser una contraseña usada ' \
+                                             'comunmente. No puede ser muy ' \
+                                             'similar a su otra informacón' \
+                                             ' personal'
         self.fields['password2'].widget = forms.PasswordInput(
             attrs={'class': 'form-control', 'icon': 'fas fa-lock',
                    'placeholder': 'Repita contraseña'})

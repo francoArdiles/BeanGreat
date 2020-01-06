@@ -23,7 +23,6 @@ class RecipeForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Nombre de la '
                                                           'receta'}),
-            # FIXME: como guardar el tiempo de preparacion
             'cooking_time': forms.TextInput({'placeholder': 'Tiempo de '
                                                             'preparación'}),
             'tips': forms.Textarea(attrs={'placeholder': 'Tips y consejos '

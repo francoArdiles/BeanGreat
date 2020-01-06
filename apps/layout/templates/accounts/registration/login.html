@@ -72,9 +72,14 @@
             <div class="form-group">
                 {% for field in signUpForm %}
                     <div class="input-group">
-                    <span class="input-group-addon"><i class="
+                        <span class="input-group-addon"><i class="
                         {{ field.field.widget.attrs.icon }}"></i></span>
                         {{ field }}
+                        <span data-balloon-pos="up" aria-label="
+{{ field.help_text }}" data-balloon-length="large"
+                              class="input-group-addon tooltip-blue"><i
+                                class="far
+                              fa-question-circle"></i></span>
                     </div>
                     {% if field.errors %}
                             {{ field.errors }}
