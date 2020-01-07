@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from apps.layout.views import index
 from django.contrib.auth.decorators import login_required
 from . import forms
-from .models import RecipeItem, RecipeStep
+from .models import RecipeItem, RecipeStep, Recipe
 
 
 def recipe_book_registered(request):
@@ -13,16 +13,23 @@ def recipe_book(request):
     context = {}
     if request.user.is_authenticated:
         return recipe_book_registered(request)
+    all_recipes = Recipe.objects.all()
+    context['recipes'] = all_recipes
     return render(request, 'recipe_book/index.html', context)
 
 
-def recipe(request):
-    context = {}
+# suena correcto
+# yep. esa sería una pagina diferente con un formulario o un boton de
+# publicar/rechazar
 
-    # Las cosas de la receta
-    if request.user.is_authenticated:
-        return render(request, 'recipe_book/index.html', context)
-    return index(request)
+
+def recipe(request, pk):
+    context = {}
+    current_recipe = Recipe.objects.get(id=int(pk))
+    items = RecipeItem.objects.filter(recipe=current_recipe)
+    context['recipe'] = current_recipe
+    context['items'] = items
+    pass
 
 
 @login_required
@@ -58,8 +65,18 @@ def create_recipe(request):
 
 
 @login_required()
+def review_recipes(request):
+    context = {}
+    recipes = Recipe.objects.filter(review=True, public=False)
+    context['recipes'] = recipes
+    return render(request, 'recipe_book/index.html', )
+
+
+@login_required()
 def favorite_recipes(request):
     context = {}
+    fav_recipes = request.user.favoriterecipe_set.all()
+    context['recipes'] = fav_recipes
     return render(request, 'recipe_book/personal/favorites.html', context)
 
 
@@ -67,5 +84,7 @@ def favorite_recipes(request):
 def our_recipes(request):
     context = {}
     if request.user.is_authenticated:
+        personal_recipes = request.user.recipe_set.all()
+        context['recipes'] = personal_recipes
         return render(request, 'recipe_book/personal/my_recipes.html', context)
     return index(request)

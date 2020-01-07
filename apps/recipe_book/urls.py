@@ -8,4 +8,5 @@ urlpatterns = [
         name='favorite_recipes'),
     url(r'^recetario/mis-recetas/$', views.our_recipes, name='my_recipes'),
     url(r'^recetario/crear-receta/$', views.create_recipe, name='create_recipe'),
+    url(r'^recetario/revisar-recetas/$', views.review_recipes, name='review_recipes'),
 ]

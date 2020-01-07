@@ -1,39 +1,30 @@
 $(function () {
 
-    // $('#inventory-form').on('submit', function (event) {
-    //
-    //     event.preventDefault();
-    //     console.log("form submitted!");  // sanity check
-    //     create_inventory();
-    // });
-
     //envia el formulario y actualiza la vista
-    function create_inventory() {
-        console.log("create post is working!"); // sanity check
+    function joinElement() {
+        console.log("join inventory is working!"); // sanity check
+        var joiner = $('[id^="join-"][id$="-form-wrapper"]');
+
+        var joinPrefix = joiner.attr('prefix');
+        var joinURL = joiner.attr('data-url');
+
+        console.log(joinURL);
+
         $.ajax({
-            url: "crear-despensa/", // the endpoint
+            url: joinURL, // the endpoint
             type: "POST", // http method
-            data: {inventory_data: $('#id_name').val()}, // data sent
-            // with the post
-            // request
-            // handle a successful response
+            data: {inventory_code: $('#'+joinPrefix+'-input').val()}, // data
             success: function (json) {
-                // Actualiza lo que se muestra en pantalla
-                $('#id_name').val(''); // remove the value from the input
-                console.log(json); // log the returned json to the console
-                $('#inventory-list').prepend(
-                    '<li><div>' +
-                    '<a href="' + json.abs_url + '">' + json.name + '</a>' +
-                    '<p>' + json.count_items + ' items</p>' +
-                    '<p>' + json.count_user + ' user(s)</p>' +
-                    '</div></li>'
-                );
-                console.log('success');
-                dialog.dialog("close");
+                //redirige a la pagina de despensas
+                if (json.url){
+                    console.log(json.url);
+                    $(location).attr('href',json.url);}
+                else
+                    $('result-join').html(json.outdated);
             },
             // handle a non-successful response
             error: function (xhr, errmsg, err) {
-                $('#results').html("<div class='alert-box alert radius'" +
+                $('#result-join').html("<div class='alert-box alert radius'" +
                     " data-alert>Oops! Ha ocurrido un error: " + errmsg +
                     "<a href='#' class='close'>&times;</a></div>"); // add the error to the dom
                 console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
@@ -41,33 +32,107 @@ $(function () {
         });
     }
 
+    /**************************************************************************/
+    /**************************************************************************/
+
+    function createElement() {
+        console.log("create post is working!"); // sanity check
+        var creator = $('[id^="create-"][id$="-form-wrapper"]');
+        console.log(creator);
+        var createPrefix = creator.attr('prefix');
+        $.ajax({
+            url: creator.attr('data-url'), // the endpoint
+            type: "POST", // http method
+            data: {inventory_data: $('#id_name').val()}, // data sent
+            // handle a successful response
+            success: function (json) {
+                // Actualiza lo que se muestra en pantalla
+                $('#id_name').val(''); // remove the value from the input
+                console.log(json); // log the returned json to the console
+                $('#' + createPrefix + '-list').prepend(
+                    '<li><div>' +
+                    '<a href="' + json.abs_url + '">' + json.name + '</a>' +
+                    '<p>' + json.count_items + ' items</p>' +
+                    '<p>' + json.count_user + ' user(s)</p>' +
+                    '</div></li>'
+                );
+                console.log('success');
+                dialogCreate.dialog("close");
+            },
+            // handle a non-successful response
+            error: function (xhr, errmsg, err) {
+                $('#create-results').html("<div class='alert-box alert radius'" +
+                    " data-alert>Oops! Ha ocurrido un error: " + errmsg +
+                    "<a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    }
+
+    var joiner = $('[id^="join-"][id$="-form-wrapper"]');
+    var creator = $('[id^="create-"][id$="-form-wrapper"]');
+
     //    Muestra el formulario como una ventana de dialogo
-    dialog = $("#inventory-form-wrapper").dialog({
+    var dialogCreate = creator.dialog({
         autoOpen: false,
         height: 200,
         width: 400,
         modal: true,
         buttons: {
-            "Crear despensa": create_inventory,
+            "Crear": createElement,
             Cancel: function () {
-                dialog.dialog("close");
+                dialogCreate.dialog("close");
             }
         },
         close: function () {
-            form[0].reset();
-            dialog.dialog('close');
+            createForm[0].reset();
+            dialogCreate.dialog('close');
             $('#id_name').removeClass("ui-state-error");
         }
     });
 
-    form = dialog.find("form").on("submit", function (event) {
-        event.preventDefault();
-        create_inventory();
+        //    Muestra el formulario como una ventana de dialogo
+    var dialogJoin = joiner.dialog({
+        autoOpen: false,
+        height: 200,
+        width: 400,
+        modal: true,
+        buttons: {
+            "Unirse": joinElement,
+            Cancel: function () {
+                dialogJoin.dialog("close");
+            }
+        },
+        close: function () {
+            joinForm[0].reset();
+            dialogJoin.dialog('close');
+            $('#'+joiner.attr('prefix')+'-input').removeClass("ui-state-error");
+        }
     });
 
-    $("#new-inventory").button().on("click", function () {
-        dialog.dialog("open");
+    var createForm = dialogCreate.find("form").on("submit", function (event) {
+        event.preventDefault();
+        createElement();
     });
+
+    var joinForm = dialogJoin.find("form").on("submit", function (event) {
+        event.preventDefault();
+        joinElement();
+    });
+
+    $('[id^="create-"][id$="-btn"]').button().on("click", function () {
+        console.log('abriendo creador de instancia');
+        dialogCreate.dialog("open");
+    });
+
+    $('[id^="join-"][id$="-btn"]').button().on("click", function () {
+        console.log('abriendo joiner de ususarios');
+        dialogJoin.dialog("open");
+    });
+
+
+    /**************************************************************************/
+    /**************************************************************************/
 
 
     /*

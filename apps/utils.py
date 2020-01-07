@@ -27,7 +27,8 @@ def create_channel_name(obj, name):
 
 
 def time_delta(origin, unit='sec'):
-    delta_secs = (datetime.now() - origin).total_seconds()
+    delta_secs = (datetime.utcnow() - origin.replace(
+        tzinfo=None)).total_seconds()
     if unit == 'sec':
         return delta_secs
     elif unit == 'min':

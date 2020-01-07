@@ -2,13 +2,12 @@
 {% load static %}
 
 {% block head %}
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet"
           href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="{% static 'js/ajax_dialog_form.js' %}"></script>
+    <script src="{% static 'js/inventory/join_inventory_dialog.js' %}"></script>
 
-    <link rel="stylesheet" href="{% static 'css/dialog_jq.css' %}">
+{#    <script src="{% static 'js/inventory/shared_data_dialog.js' %}"></script>#}
+
 {% endblock %}
 
 {% block title %}
@@ -19,14 +18,31 @@
     Pagina principal de la despensa
 
 {#    Formulario para crear nuevo inventario#}
-    <button id='new-inventory' class="btn btn-colored btn-primary">Crear nueva
+    <button id='create-inventory-btn' class="btn btn-colored btn-primary">Crear
+        nueva
         despensa</button>
-    <div id="inventory-form-wrapper" title="Crear nueva despensa">
+    <div id="create-inventory-form-wrapper" title="Crear nueva despensa"
+         prefix="inventory" data-url="{% url 'create_inventory' %}">
         <form id="inventory-form" method="post">
             {% csrf_token %}
             <div class="fieldWrapper">
                 {{ form.name }}
-                <div id="results"></div>
+                <div id="create-results"></div>
+            </div>
+        </form>
+    </div>
+
+    <button id='join-inventory-btn' class="btn btn-colored btn-primary">Unirse a
+        despensa</button>
+
+    <div prefix="inventory" data-url="{% url 'join_inventory' %}"
+         id="join-inventory-form-wrapper" title="Unirse a nueva despensa">
+        <form id="join-inventory-form" method="post">
+            {% csrf_token %}
+            <div class="fieldWrapper">
+                <input id='inventory-join-input' type="text"
+                       class="form-control" placeholder="Código para unirse">
+                <div id="result-join"></div>
             </div>
         </form>
     </div>

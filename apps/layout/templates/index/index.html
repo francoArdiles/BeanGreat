@@ -17,6 +17,13 @@
     <div class="logout">
     <a href= {% url 'logout' %}>Cerrar sesión</a>
     </div>
+
+
+    {% if user.is_staff %}
+        <div class="content_block">
+        <a href= {% url 'review_recipes' %}>Revisar recetas</a>
+        </div>
+    {% endif %}
 {% endif %}
 
     <a href={% url 'profile' %}>Mi perfil</a>
@@ -32,6 +39,8 @@
     <div class="content-block">
     <a href="{% url 'shopping_carts' %}">Listas de compras</a>
     </div>
+
+
 {% endblock %}
 
 

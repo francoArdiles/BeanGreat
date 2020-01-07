@@ -1,19 +1,59 @@
-Contenido de una Despensa
+{% extends 'base.html' %}
 
-<a href="{% url 'inventories' %}">Volver a mis inventarios</a>
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet"
+          href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="{% static 'js/inventory/delete_inventory_dialog.js' %}"></script>
+    <script src="{% static 'js/inventory/share_inventory_btn.js' %}"></script>
 
-{% for username in inventory.usernames %}
-    <div>
+{% endblock %}
+
+{% block content %}
+
+    Contenido de una Despensa
+
+    <a href="{% url 'inventories' %}">Volver a mis inventarios</a>
+
+
+        <button id='share-inventory' class="btn btn-colored
+    btn-primary" value="{{ inventory.pk }}">Obtener codigo para compartir
+            despensa</button>
     <p>
-        {{username}}
-    </p>
+        {% if codes%}
+            <ul class="code-list">
+            {% for code in codes %}
+                <li><p style="display: inline-block" id="{{ code }}">{{code }}</p>
+                <button onclick="copyToClipboard('#{{ code }}')"><i class="far
+                fa-copy"></i></button>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
     </div>
-{% endfor %}
+
+    <button id='delete-inventory' class="btn btn-colored btn-primary"
+            value={{ inventory.pk }}>Eliminar esta
+        despensa
+    </button>
+    <div id="dialog-delete-inventory" title="Eliminar Inventario">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px
+ 20px 0;"></span>Esta despensa será completamente eliminada y no podrá ser
+            recuperada. ¿Deseas eliminarla?</p>
+    </div>
+
+    {% for username in inventory.usernames %}
+        <div>
+            <p>
+                {{ username }}
+            </p>
+        </div>
+    {% endfor %}
 
 
 
-{% if items.count == 0 %}
-    <p>No tienes alimentos en esta despensa</p>
+    {% if items.count == 0 %}
+        <p>No tienes alimentos en esta despensa</p>
     {% else %}
         <ul>
             {% for item in items %}
@@ -25,5 +65,9 @@ Contenido de una Despensa
             {% endfor %}
 
         </ul>
-{% endif %}
+    {% endif %}
+
+{% endblock %}
+
+
 
