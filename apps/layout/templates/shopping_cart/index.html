@@ -1,7 +1,10 @@
 {%  extends 'base.html' %}
+{% load static %}
 
 {% block head %}
-
+    <link rel="stylesheet"
+          href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="{% static 'js/inventory/shared_data_dialog.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -9,28 +12,59 @@
 {% endblock %}
 
 {% block content %}
-Pagina principal de las listas de compra
+    Pagina principal de la despensa
 
-    {% if shopping_carts.count == 0 %}
-        <div>
-            <p>No tienes Listas de compras creadas</p>
-        </div>
-    {% else %}
-        <ul>
-            {% for shopping_cart in shopping_carts %}
+{#    Formulario para crear nuevo inventario#}
+    <button id='create-shopping-cart-btn' class="btn btn-colored
+    btn-primary">Crear nueva lista de compras</button>
+    <div id="create-shopping-cart-form-wrapper" title="Crear nueva Lista de
+    Compras"
+         prefix="shopping-cart" data-url="{% url 'create_shopping_cart' %}">
+        <form id="shopping-cart-form" method="post">
+            {% csrf_token %}
+            <div class="fieldWrapper">
+                {{ form.name }}
+                <div id="create-results"></div>
+            </div>
+        </form>
+    </div>
+
+    <button id='join-shopping-cart-btn' class="btn btn-colored
+    btn-primary">Unirse a
+        lista de comprasa</button>
+
+    <div prefix="shopping-cart-join" data-url="{% url 'join_shopping_cart' %}"
+         id="join-shopping-cart-form-wrapper" title="Unirse a nueva lista de
+         compras">
+        <form id="join-shopping-cart-form" method="post">
+            {% csrf_token %}
+            <div class="fieldWrapper">
+                <input id='shopping-cart-join-input' type="text"
+                       class="form-control" placeholder="Código para unirse">
+                <div id="result-join"></div>
+            </div>
+        </form>
+    </div>
+
+    {#    Muestra los inventarios existentes#}
+    <div class='row-shopping-carts'>
+        <ul id="shopping-cart-list">
+            {% if shopping_carts.count == 0 %}
                 <li>
-
-                    <div>
-                        {#            {{ inventory.get_absolute_url }}#}
-{#                        <a href="{{ inventory.get_absolute_url }}">{{ inventory }}</a>#}
+                    <p>No tienes Listas de Compras creadas</p>
+                </li>
+            {% else %}
+                {% for shopping_cart in shopping_carts %}
+                    <li>
+                        <div>
                         <a href="{{ shopping_cart.get_absolute_url }}">{{ shopping_cart }}</a>
                         <p>{{ shopping_cart.count_items }} items</p>
                         <p>{{ shopping_cart.count_users }} user(s)</p>
                     </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+    </div>
 
-                </li>
-            {% endfor %}
-        </ul>
-
-    {% endif %}
 {% endblock %}

@@ -4,9 +4,7 @@
 {% block head %}
     <link rel="stylesheet"
           href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="{% static 'js/inventory/join_inventory_dialog.js' %}"></script>
-
-{#    <script src="{% static 'js/inventory/shared_data_dialog.js' %}"></script>#}
+    <script src="{% static 'js/inventory/shared_data_dialog.js' %}"></script>
 
 {% endblock %}
 
@@ -35,7 +33,7 @@
     <button id='join-inventory-btn' class="btn btn-colored btn-primary">Unirse a
         despensa</button>
 
-    <div prefix="inventory" data-url="{% url 'join_inventory' %}"
+    <div prefix="inventory-join" data-url="{% url 'join_inventory' %}"
          id="join-inventory-form-wrapper" title="Unirse a nueva despensa">
         <form id="join-inventory-form" method="post">
             {% csrf_token %}

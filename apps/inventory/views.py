@@ -40,7 +40,7 @@ def inventory(request, pk):
 def create_inventory(request):
     print('creating inventory')
     if request.method == 'POST':
-        inventory_name = request.POST.get('inventory_data')
+        inventory_name = request.POST.get('create_data')
 
         new_inventory = Inventory(name=inventory_name, owner=request.user)
         new_inventory.save()
@@ -86,7 +86,8 @@ def share_inventory_code(request):
 @csrf_exempt
 def join_inventory(request):
     if request.method == 'POST':
-        code = request.POST.get('inventory_code')
+        code = request.POST.get('join_data')
+        print(code)
         code_object = codes.CodeInventory.objects.get(code=code)
         if code_object.is_outdated():
             code_object.delete()

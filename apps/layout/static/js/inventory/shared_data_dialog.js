@@ -11,9 +11,9 @@ $(function () {
         console.log(joinURL);
 
         $.ajax({
-            url: joinURL, // the endpoint
+            url: joiner.attr('data-url'), // the endpoint
             type: "POST", // http method
-            data: {inventory_code: $('#'+joinPrefix+'-input').val()}, // data
+            data: {join_data: $('#'+joinPrefix+'-input').val()}, // data
             success: function (json) {
                 //redirige a la pagina de despensas
                 if (json.url){
@@ -43,7 +43,7 @@ $(function () {
         $.ajax({
             url: creator.attr('data-url'), // the endpoint
             type: "POST", // http method
-            data: {inventory_data: $('#id_name').val()}, // data sent
+            data: {create_data: $('#id_name').val()}, // data sent
             // handle a successful response
             success: function (json) {
                 // Actualiza lo que se muestra en pantalla
