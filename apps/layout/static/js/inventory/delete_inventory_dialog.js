@@ -1,17 +1,16 @@
 $(function () {
 
     //envia el formulario y actualiza la vista
-    function delete_inventory() {
-        console.log("delete inventory is working!"); // sanity check
+    function delete_element() {
+        var element = $('[id^="delete-"][id$="-btn"]');
+        console.log("delete element is working!"); // sanity check
         $.ajax({
-            url: "/eliminar-despensa/", // the endpoint
+            url: element.attr('data-url'), // the endpoint
             type: "POST", // http method
-            data: {inventory_pk: $('#delete-inventory').val()}, // data sent
-            // with the post
-            // request
-            // handle a successful response
+            data: {element_pk: element.val()}, // data sent
+
             success: function (json) {
-                //redirige a la pagina de despensas
+                //redirige a la pagina a pagina indicada por la vista
                 $(location).attr('href',json.url);
                 dialog.dialog("close");
             },
@@ -25,7 +24,7 @@ $(function () {
         });
     }
 
-    var dialog = $("#dialog-delete-inventory").dialog({
+    var dialog = $('[id^="delete-"][id$="-dialog"]').dialog({
         autoOpen: false,
         resizable: false,
         height: "auto",
@@ -33,7 +32,7 @@ $(function () {
         modal: true,
         buttons: {
             "Eliminar": function () {
-                delete_inventory();
+                delete_element();
                 $(this).dialog('close');
             },
             Cancel: function () {
@@ -42,7 +41,7 @@ $(function () {
         }
     });
 
-    $("#delete-inventory").button().on("click", function () {
+    $('[id^="delete-"][id$="-btn"]').button().on("click", function () {
         console.log('boton apretado');
         dialog.dialog("open");
     });

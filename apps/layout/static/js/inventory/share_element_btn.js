@@ -1,14 +1,16 @@
-$(document).on('click', '#share-inventory', function () {
+$(document).on('click', '#share-object', function () {
     var pk = $(this).val();
+    var prefix = $(this).attr('prefix');
     console.log('creando codigo! pk:'+ pk);
+    console.log();
     $.ajax({
-        url: '/despensa/share-code/',
+        url: $(this).attr('data-url'),
         method: 'POST',
-        data: {inventory_pk: pk},
+        data: {element_pk: pk},
 
         success: function (json) {
             console.log('exito en la operacion');
-            $('#code-list').prepend(
+            $('#' + prefix + '-list').prepend(
                     '<li>' + json.code + '</li>'
                 );
         },

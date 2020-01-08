@@ -20,9 +20,16 @@ def shopping_carts(request):
 def shopping_cart(request, pk):
     context = {}
     current_list = request.user.shoppingcart_set.get(id=int(pk))
+    codes = current_list.codeshoppingcart_set.all() or None
     if current_list is not None:
-        context['list'] = current_list
+        context['shopping_cart'] = current_list
         context['products'] = current_list.shoppingproduct_set.all()
+        if codes is not None:
+            for _code in codes:
+                if _code.is_outdated():
+                    print('{} is outdated'.format(_code.code))
+                    _code.delete()
+        context['codes'] = codes
     else:
         return shopping_carts(request)
     return render(request, 'shopping_cart/shopping_cart.html', context)
@@ -55,6 +62,7 @@ def create_shopping_cart(request):
 def delete_shopping_cart(request):
     if request.method == 'POST':
         pk = request.POST.get('element_pk')
+
         ShoppingCart.objects.get(id=pk).delete()
         return JsonResponse({'url': '/listas/'})
     else:
@@ -66,7 +74,7 @@ def share_shopping_cart_code(request):
     if request.method == 'POST':
         pk = request.POST.get('element_pk')
         current_shopping_cart = ShoppingCart.objects.get(id=pk)
-        if len(current_shopping_cart.codeshoppingcart_set.all())>0:
+        if len(current_shopping_cart.codeshoppingcart_set.all()) > 0:
             pass
         code = codes.CodeShoppingCart(shopping_cart=current_shopping_cart)
         code.save(id_object=pk)

@@ -5,7 +5,7 @@
     <link rel="stylesheet"
           href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="{% static 'js/inventory/delete_inventory_dialog.js' %}"></script>
-    <script src="{% static 'js/inventory/share_inventory_btn.js' %}"></script>
+    <script src="{% static 'js/inventory/share_element_btn.js' %}"></script>
 
 {% endblock %}
 
@@ -16,10 +16,11 @@
     <a href="{% url 'inventories' %}">Volver a mis inventarios</a>
 
 
-        <button id='share-inventory' class="btn btn-colored
-    btn-primary" value="{{ inventory.pk }}">Obtener codigo para compartir
-            despensa</button>
-    <p>
+        <button id='share-object' data-url="{% url 'share_inventory' %}" class="btn
+        btn-colored btn-primary" prefix="code" value=
+                "{{ inventory.pk }}">Obtener
+            codigo para compartir despensa</button>
+    <div>
         {% if codes%}
             <ul class="code-list">
             {% for code in codes %}
@@ -32,11 +33,12 @@
         {% endif %}
     </div>
 
-    <button id='delete-inventory' class="btn btn-colored btn-primary"
-            value={{ inventory.pk }}>Eliminar esta
-        despensa
+    <button prefix='inventory' id='delete-inventory-btn' data-url="
+    '{% url 'delete_inventory' %}" class="btn
+    btn-colored btn-primary" value={{ inventory.pk }}>
+        Eliminar esta despensa
     </button>
-    <div id="dialog-delete-inventory" title="Eliminar Inventario">
+    <div id="delete-inventory-dialog" title="Eliminar Inventario">
         <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px
  20px 0;"></span>Esta despensa será completamente eliminada y no podrá ser
             recuperada. ¿Deseas eliminarla?</p>

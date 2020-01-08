@@ -63,7 +63,7 @@ def create_inventory(request):
 @csrf_exempt
 def delete_inventory(request):
     if request.method == 'POST':
-        pk = request.POST.get('inventory_pk')
+        pk = request.POST.get('element_pk')
         Inventory.objects.get(id=pk).delete()
         return JsonResponse({'url': '/despensas/'})
     else:
@@ -73,7 +73,7 @@ def delete_inventory(request):
 @csrf_exempt
 def share_inventory_code(request):
     if request.method == 'POST':
-        pk = request.POST.get('inventory_pk')
+        pk = request.POST.get('element_pk')
         current_inventory = Inventory.objects.get(id=pk)
         if len(current_inventory.codeinventory_set.all())>0:
             pass

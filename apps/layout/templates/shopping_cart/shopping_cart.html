@@ -1,28 +1,79 @@
-Contenido de la lista
 
-<br>
+{% extends 'base.html' %}
 
-{% for username in list.username %}
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet"
+          href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="{% static 'js/inventory/delete_inventory_dialog.js' %}"></script>
+    <script src="{% static 'js/inventory/share_element_btn.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+
+    Contenido de una Lista
+
+    <a href="{% url 'shopping_carts' %}">Volver a mis inventarios</a>
+
+
+    <button id='share-object' data-url="{% url 'share_shopping_cart' %}" class="btn
+        btn-colored btn-primary" prefix="code" value="{{ shopping_cart.pk }}">
+        Obtener codigo para compartir lista de compras
+    </button>
     <div>
-    <p>
-        {{username}}
-    </p>
+        {% if codes %}
+            <ul class="code-list">
+                {% for code in codes %}
+                    <li>
+                    <p style="display: inline-block"
+                       id="{{ code }}">{{ code }}</p>
+                    <button onclick="copyToClipboard('#{{ code }}')"><i class="far
+                fa-copy"></i></button>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
-{% endfor %}
+
+    <button prefix='shopping-cart' id='delete-shopping-cart-btn' data-url="
+    '{% url 'delete_shopping_cart' %}" class="btn
+    btn-colored btn-primary" value={{ shopping_cart.pk }}>
+        Eliminar esta lista
+    </button>
+    <div id="delete-shopping-cart-dialog" title="Eliminar Lista de Compras">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px
+ 20px 0;"></span>Esta lista de compras será completamente eliminada y no podrá
+            ser
+            recuperada. ¿Deseas eliminarla?</p>
+    </div>
+
+    {% for username in shopping_cart.usernames %}
+        <div>
+            <p>
+                {{ username }}
+            </p>
+        </div>
+    {% endfor %}
 
 
 
-{% if products.count == 0 %}
-    <p>No tienes productos en esta lista</p>
+    {% if items.count == 0 %}
+        <p>No productos en esta lista.</p>
     {% else %}
         <ul>
-            {% for product in products %}
+            {% for item in items %}
                 <li>
                     <p>
-                        item
+                        {{item}}
                     </p>
                 </li>
             {% endfor %}
 
         </ul>
-{% endif %}
+    {% endif %}
+
+{% endblock %}
+
+
+
