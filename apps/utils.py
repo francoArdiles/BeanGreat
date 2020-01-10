@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.conf import settings
 from . import constants
+import json
 
 
 # FIXME: entender como funcionan los canales privados
@@ -38,3 +39,22 @@ def time_delta(origin, unit='sec'):
     else:
         return delta_secs/constants.SECONDS_DAY
 
+
+def deserialize_form(request_form):
+    """
+    retorna un diccioonario de un formulario cualquiera. Este formulario
+    tiene que estar serializado de la siguiente manera usando jquery
+
+    (JQuery - AJAx)
+    var request_form = $('#id-form').serializeArray();
+    request_form = JSON.stringify(formData);
+
+    :param request_form: Formulario serializado
+
+    :return: Diccionario del formulario entregado
+    """
+    data = {}
+    form_data_list = json.loads(request_form)
+    for field in form_data_list:
+        data[field["name"]] = field["value"]
+    return data

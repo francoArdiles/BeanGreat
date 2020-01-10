@@ -5,8 +5,9 @@
     {% load static %}
     <link rel="stylesheet"
           href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="{% static 'js/inventory/delete_inventory_dialog.js' %}"></script>
+{#    <script src="{% static 'js/inventory/delete_inventory_dialog.js' %}"></script>#}
     <script src="{% static 'js/inventory/share_element_btn.js' %}"></script>
+    <script src="{% static 'js/delete_element.js' %}"></script>
 
 {% endblock %}
 
@@ -14,7 +15,7 @@
 
     Contenido de una Lista
 
-    <a href="{% url 'shopping_carts' %}">Volver a mis inventarios</a>
+    <a href="{% url 'shopping_carts' %}">Volver a mis listas</a>
 
 
     <button id='share-object' data-url="{% url 'share_shopping_cart' %}" class="btn
@@ -36,17 +37,7 @@
         {% endif %}
     </div>
 
-    <button prefix='shopping-cart' id='delete-shopping-cart-btn' data-url="
-    '{% url 'delete_shopping_cart' %}" class="btn
-    btn-colored btn-primary" value={{ shopping_cart.pk }}>
-        Eliminar esta lista
-    </button>
-    <div id="delete-shopping-cart-dialog" title="Eliminar Lista de Compras">
-        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px
- 20px 0;"></span>Esta lista de compras será completamente eliminada y no podrá
-            ser
-            recuperada. ¿Deseas eliminarla?</p>
-    </div>
+    {% include 'dialogs/delete_element_dialog.html' with prefix='shopping-cart' target_url=url_delete_this value=shopping_cart.pk btn_content='Eliminar Lista' content='¿Desea eliminar esta lista? La información no podrá ser recuoerada'%}
 
     {% for username in shopping_cart.usernames %}
         <div>
@@ -56,6 +47,7 @@
         </div>
     {% endfor %}
 
+    {% include "add_item_dialog.html" with prod_form=product_form view_add_url=url_add pk=shopping_cart.pk%}
 
 
     {% if items.count == 0 %}
@@ -66,6 +58,7 @@
                 <li>
                     <p>
                         {{item}}
+                        {% include 'dialogs/delete_element_dialog.html' with prefix='product' target_url=url_delete_product value=item.pk btn_content='X' conent=''%}
                     </p>
                 </li>
             {% endfor %}

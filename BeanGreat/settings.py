@@ -168,4 +168,8 @@ SITE_ID = 1
 
 SOCIALACCOUNT_QUERY_EMAIL = True
 
+# Envio de correos
 
+EMAIL_HOST_USER = ''
+
+EMAIL_HOST_PASSWORD = ''

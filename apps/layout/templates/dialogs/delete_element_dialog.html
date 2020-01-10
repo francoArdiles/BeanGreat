@@ -1,0 +1,26 @@
+{% comment %}
+    prefix = nombre del elemento lista/inventario/producto
+    target_url = ruta a donde se enviara el formulario/ruta de la vista
+    value = pk objetivo
+    btn_content = contenido del boton
+    content = contenido de ventana de dialogo
+{% endcomment %}
+
+
+<button prefix="{{ prefix }}" id='delete-{{ prefix }}-{{ value }}-btn'
+        data-url="{{ target_url }}" class="btn btn-colored btn-primary"
+        value={{ value }}>
+    {{ btn_content }}
+</button>
+
+<div id="delete-{{prefix}}-{{value}}-dialog" title="Eliminar Elemento">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float:left; margin:12px
+        12px 20px 0;"></span>
+        {% if content|length < 1 %}
+            ¿Realmente desea eliminar este elemento?
+        {% else %}
+            {{content}}
+        {% endif %}
+    </p>
+</div>

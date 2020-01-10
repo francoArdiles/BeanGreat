@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from .forms import InventoryForm
-from .models import Inventory
+from .forms import InventoryForm, InventoryProductForm
+from .models import Inventory, InventoryProduct
+from django.urls import reverse
 from apps.codes import models as codes
+from .. import utils
 
 
 @login_required
@@ -24,6 +26,10 @@ def inventory(request, pk):
 
     if request.user in current_inventory.users.all():
         context['inventory'] = current_inventory
+        context['product_form'] = InventoryProductForm
+        context['url_add'] = reverse('add_inventory_product')
+        context['url_delete_product'] = reverse('delete_inventory_product')
+        context['url_delete_this'] = reverse('delete_inventory')
         context['items'] = current_inventory.inventoryproduct_set.all()
         # Elimina los codigos que no estan actualizados de la base de datos
         if codes is not None:
@@ -65,7 +71,8 @@ def delete_inventory(request):
     if request.method == 'POST':
         pk = request.POST.get('element_pk')
         Inventory.objects.get(id=pk).delete()
-        return JsonResponse({'url': '/despensas/'})
+        return JsonResponse({'url': reverse('inventories'),
+                             'action': 'redirect'})
     else:
         return JsonResponse({'Vacio': 'Aqui no hay nada'})
 
@@ -96,3 +103,37 @@ def join_inventory(request):
         return JsonResponse({'url': code_object.inventory.get_absolute_url()})
     else:
         return JsonResponse({'Vacio': 'Aqui no hay nada'})
+
+
+def add_product(request):
+    print('adding product inventory')
+    response_data = {}
+    if request.method == 'POST':
+        inventory_id = request.POST.get('pk_container')
+        data = utils.deserialize_form(request.POST.get('data'))
+        form = InventoryProductForm(data)
+        if form.is_valid():
+            product = form.save(inventory_id=inventory_id)
+            print(product)
+            return JsonResponse(response_data)
+        else:
+            return JsonResponse({'error':form.errors})
+        # print(request.POST)
+        # reference_product = request.POST.get('add_data')
+        # new_product = InventoryProduct(inventory_id=inventory_id,
+        #                                product_id=reference_product)
+        # new_product.save()
+        #
+        # print(new_product)
+        # return JsonResponse(response_data)
+    else:
+        return JsonResponse({'Vacio': 'Aquí no hay nada'})
+
+
+@csrf_exempt
+def delete_product(request):
+    print('eliminando producto')
+    # FIXME: implementar
+    return JsonResponse({'Vacio': 'Aquí no hay nada'})
+    pass
+

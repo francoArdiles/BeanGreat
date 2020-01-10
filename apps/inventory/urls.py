@@ -13,6 +13,10 @@ urlpatterns = [
         name='join_inventory'),
     url(r'despensa/share-code/$', views.share_inventory_code,
         name='share_inventory'),
+    url(r'inventory/add_product/$', views.add_product,
+        name='add_inventory_product'),
+    url(r'inventory/delete-product/$', views.delete_product,
+        name='delete_inventory_product')
 
 ]
 

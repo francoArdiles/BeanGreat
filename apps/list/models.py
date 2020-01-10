@@ -41,8 +41,14 @@ class ShoppingCart(models.Model):
 class ShoppingProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.IntegerField(default=0, blank=True)
+    quantity = models.PositiveIntegerField(default=0)
+    note = models.TextField(max_length=150, blank=True, null=True,
+                            editable=True)
     list = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE)
     bought = models.BooleanField(default=False, blank=True)
+
+    def __str__(self):
+        return str(self.product)
 
 
 class ShoppingCustomProduct(CustomProduct):

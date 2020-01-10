@@ -39,4 +39,7 @@ class Inventory(models.Model):
 class InventoryProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE)
-    quantity = models.IntegerField(null=False, default=0)
+    quantity = models.IntegerField(null=False, default=1)
+
+    def __str__(self):
+        return str(self.product)

@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from .models import ShoppingCart
+from .models import ShoppingCart, ShoppingProduct
 from django.views.decorators.csrf import csrf_exempt
 from apps.codes import models as codes
 from django.http import JsonResponse
-from .forms import ShoppingCartForm
+from django.urls import reverse
+from .forms import ShoppingCartForm, ShoppingProductForm
+from .. import utils
 
 
 @login_required
@@ -23,7 +25,11 @@ def shopping_cart(request, pk):
     codes = current_list.codeshoppingcart_set.all() or None
     if current_list is not None:
         context['shopping_cart'] = current_list
-        context['products'] = current_list.shoppingproduct_set.all()
+        context['items'] = current_list.shoppingproduct_set.all()
+        context['product_form'] = ShoppingProductForm(initial={'quantity': 1})
+        context['url_add'] = reverse('add_shoppping_cart_product')
+        context['url_delete_product'] = reverse('delete_shopping_cart_product')
+        context['url_delete_this'] = reverse('delete_shopping_cart')
         if codes is not None:
             for _code in codes:
                 if _code.is_outdated():
@@ -62,9 +68,9 @@ def create_shopping_cart(request):
 def delete_shopping_cart(request):
     if request.method == 'POST':
         pk = request.POST.get('element_pk')
-
         ShoppingCart.objects.get(id=pk).delete()
-        return JsonResponse({'url': '/listas/'})
+        return JsonResponse({'url': reverse('shopping_carts'),
+                             'action': 'redirect'})
     else:
         return JsonResponse({'Vacio': 'Aqui no hay nada'})
 
@@ -92,6 +98,33 @@ def join_shopping_cart(request):
             code_object.delete()
             return JsonResponse({'outdated': 'Codigo caducado'})
         code_object.shopping_cart.users.add(request.user)
-        return JsonResponse({'url': code_object.shopping_cart.get_absolute_url()})
+        return JsonResponse(
+            {'url': code_object.shopping_cart.get_absolute_url()})
     else:
         return JsonResponse({'Vacio': 'Aqui no hay nada'})
+
+
+def add_product(request):
+    print('adding product inventory')
+    response_data = {}
+    if request.method == 'POST':
+        id_sh_cart = request.POST.get('pk_container')
+        # Carga formulario al objeto
+        data = utils.deserialize_form(request.POST.get('data'))
+        form = ShoppingProductForm(data)
+        if form.is_valid():
+            product = form.save(container_id=id_sh_cart)
+            print(product)
+            return JsonResponse(response_data)
+        else:
+            return JsonResponse({'error': form.errors})
+    else:
+        return JsonResponse({'Vacio': 'Aquí no hay nada'})
+
+
+@csrf_exempt
+def delete_product(request):
+    print('eliminando producto')
+    # FIXME: implementar
+    return JsonResponse({'Vacio': 'Aquí no hay nada'})
+    pass
