@@ -16,7 +16,9 @@ urlpatterns = [
     url(r'shopping_cart/delete_product/$', views.delete_product,
         name='delete_shopping_cart_product'),
     url(r'shopping_cart/add_product/$', views.add_product,
-        name='add_shoppping_cart_product')
+        name='add_shoppping_cart_product'),
+    url(r'shopping_cart/from_container/$', views.fill_from_container,
+        name='fill_from_container'),
 
 ]
 

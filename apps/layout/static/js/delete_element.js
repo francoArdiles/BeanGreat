@@ -24,7 +24,7 @@ $(document).ready(function () {
             }
         });
     }
-    console.log($('[id^="delete-"][id$="-dialog"]'));
+    // console.log($('[id^="delete-"][id$="-dialog"]'));
 
     var dialog = $('[id^="delete-"][id$="-dialog"]').dialog({
         autoOpen: false,

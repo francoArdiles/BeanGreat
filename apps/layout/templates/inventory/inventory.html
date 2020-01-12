@@ -7,6 +7,8 @@
 {#    <script src="{% static 'js/inventory/delete_inventory_dialog.js' %}"></script>#}
     <script src="{% static 'js/inventory/share_element_btn.js' %}"></script>
     <script src="{% static 'js/delete_element.js' %}"></script>
+    <script src="
+    {% static 'js/shopping_cart/create_shopping_cart_from_container.js' %}"></script>
 
 {% endblock %}
 
@@ -36,16 +38,16 @@
 
     {% include 'dialogs/delete_element_dialog.html' with prefix='inventory' target_url=url_delete_this value=inventory.pk btn_content='Eliminar Depsensa' content='¿Desea eliminar esta lista? La información no podrá ser recuperada'%}
 
-{#    <button prefix='inventory' id='delete-inventory-btn' data-url="#}
-{#    '{% url 'delete_inventory' %}" class="btn#}
-{#    btn-colored btn-primary" value={{ inventory.pk }}>#}
-{#        Eliminar esta despensa#}
-{#    </button>#}
-{#    <div id="delete-inventory-dialog" title="Eliminar Inventario">#}
-{#        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px#}
-{# 20px 0;"></span>Esta despensa será completamente eliminada y no podrá ser#}
-{#            recuperada. ¿Deseas eliminarla?</p>#}
-{#    </div>#}
+    <button prefix='inventory' id='delete-inventory-btn' data-url="
+    '{% url 'delete_inventory' %}" class="btn
+    btn-colored btn-primary" value={{ inventory.pk }}>
+        Eliminar esta despensa
+    </button>
+    <div id="delete-inventory-dialog" title="Eliminar Inventario">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px
+ 20px 0;"></span>Esta despensa será completamente eliminada y no podrá ser
+            recuperada. ¿Deseas eliminarla?</p>
+    </div>
 
     {% for username in inventory.usernames %}
         <div>
@@ -74,6 +76,10 @@
 
         </ul>
     {% endif %}
+
+    Crear nueva lista con elementos de la despensa o agregar a una existente
+
+    {% include 'shopping_cart/create_from_inventory.html' with target_url=url_fill_shopping_cart items=items containers=shopping_carts related_container=inventory.pk%}
 
 {% endblock %}
 

@@ -30,6 +30,8 @@ def shopping_cart(request, pk):
         context['url_add'] = reverse('add_shoppping_cart_product')
         context['url_delete_product'] = reverse('delete_shopping_cart_product')
         context['url_delete_this'] = reverse('delete_shopping_cart')
+        context['url_fill_shopping_cart'] = reverse('fill_from_container')
+        # context['shopping_carts'] = request.user.shoppingcart_set.all()
         if codes is not None:
             for _code in codes:
                 if _code.is_outdated():
@@ -106,11 +108,14 @@ def join_shopping_cart(request):
 
 def add_product(request):
     print('adding product inventory')
+    print(request)
+    print(request.POST)
     response_data = {}
     if request.method == 'POST':
         id_sh_cart = request.POST.get('pk_container')
         # Carga formulario al objeto
         data = utils.deserialize_form(request.POST.get('data'))
+        # product = _add_product(data, id_sh_cart)
         form = ShoppingProductForm(data)
         if form.is_valid():
             product = form.save(container_id=id_sh_cart)
@@ -128,3 +133,42 @@ def delete_product(request):
     # FIXME: implementar
     return JsonResponse({'Vacio': 'Aquí no hay nada'})
     pass
+
+
+def fill_from_container(request):
+    # revisar
+    # layout/templates/shopping/create_from_ivnentory.html
+    # layout/static/js/shopping_cart/create_shoppiing_cart_from_container.js
+    #
+    # Idealmente usariamos esta view para crear la lista a partir de otra
+    # losta y a partir de una despensa
+    print('en view fill_from_container')
+    if request.method == 'POST':
+        data = utils.deserialize_form(request.POST.get('data'))
+        products = data['item-shopping-cart']
+        name = data['shopping-cart-name']
+        shopping_cart_id = data['shopping-cart-id']
+        # Si no existe, entonces se crea una nueva lista de compras
+        if shopping_cart_id == 'new':
+            current_shopping_cart = ShoppingCart(name=name, owner=request.user)
+            current_shopping_cart.save()
+            current_shopping_cart.users.add(request.user)
+            shopping_cart_id = current_shopping_cart.pk
+        else:
+            current_shopping_cart = ShoppingCart.objects.get(
+                pk=shopping_cart_id)
+        # Crear nuevos productos en la lista
+        if isinstance(products, list):
+            for item in products:
+                print('item creado', item)
+                product = ShoppingProduct(product_id=item,
+                                          list_id=shopping_cart_id)
+                product.save()
+        else:
+            product = ShoppingProduct(product_id=products,
+                                      list_id=shopping_cart_id)
+            product.save()
+
+        from pprint import pprint
+        pprint(data)
+    return JsonResponse({})

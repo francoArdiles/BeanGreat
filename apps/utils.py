@@ -53,8 +53,15 @@ def deserialize_form(request_form):
 
     :return: Diccionario del formulario entregado
     """
+    # TODO: comprobar que esto funciona con opciones multiples
     data = {}
     form_data_list = json.loads(request_form)
     for field in form_data_list:
-        data[field["name"]] = field["value"]
+        data_field = data.get(field["name"])
+        if data_field is None:
+            data[field["name"]] = field["value"]
+        elif isinstance(data_field, str):
+            data[field["name"]] = [data_field, field["value"]]
+        else:
+            data_field.append(field["value"])
     return data

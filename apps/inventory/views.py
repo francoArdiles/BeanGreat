@@ -30,6 +30,8 @@ def inventory(request, pk):
         context['url_add'] = reverse('add_inventory_product')
         context['url_delete_product'] = reverse('delete_inventory_product')
         context['url_delete_this'] = reverse('delete_inventory')
+        context['url_fill_shopping_cart'] = reverse('fill_from_container')
+        context['shopping_carts'] = request.user.shoppingcart_set.all()
         context['items'] = current_inventory.inventoryproduct_set.all()
         # Elimina los codigos que no estan actualizados de la base de datos
         if codes is not None:
@@ -82,7 +84,8 @@ def share_inventory_code(request):
     if request.method == 'POST':
         pk = request.POST.get('element_pk')
         current_inventory = Inventory.objects.get(id=pk)
-        if len(current_inventory.codeinventory_set.all())>0:
+
+        if len(current_inventory.codeinventory_set.all()) > 0:
             pass
         code = codes.CodeInventory(inventory=current_inventory)
         code.save(id_object=pk)
@@ -117,7 +120,8 @@ def add_product(request):
             print(product)
             return JsonResponse(response_data)
         else:
-            return JsonResponse({'error':form.errors})
+            print('forma no valida')
+            return JsonResponse({'error': form.errors})
         # print(request.POST)
         # reference_product = request.POST.get('add_data')
         # new_product = InventoryProduct(inventory_id=inventory_id,
@@ -136,4 +140,3 @@ def delete_product(request):
     # FIXME: implementar
     return JsonResponse({'Vacio': 'Aquí no hay nada'})
     pass
-

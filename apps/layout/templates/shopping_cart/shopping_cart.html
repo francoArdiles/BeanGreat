@@ -8,6 +8,7 @@
 {#    <script src="{% static 'js/inventory/delete_inventory_dialog.js' %}"></script>#}
     <script src="{% static 'js/inventory/share_element_btn.js' %}"></script>
     <script src="{% static 'js/delete_element.js' %}"></script>
+    <script src="{% static 'js/shopping_cart/create_shopping_cart_from_container.js' %}"></script>
 
 {% endblock %}
 
@@ -65,6 +66,8 @@
 
         </ul>
     {% endif %}
+
+    {% include 'shopping_cart/create_from_inventory.html' with target_url=url_fill_shopping_cart items=items containers=shopping_carts related_container=shopping_cart.pk%}
 
 {% endblock %}
 

@@ -1,0 +1,75 @@
+{% comment %}
+    items: productos en el el contenedor
+    containers: Listas pertenecientes al usuario
+    prefix = nombre del elemento lista/inventario/producto
+    target_url = ruta a donde se enviara el formulario/ruta de la vista
+    value = pk objetivo
+    btn_content = contenido del boton
+    content = contenido de ventana de dialogo
+    related_container = pk del contenedor relacionado al nuevo
+{% endcomment %}
+
+
+<button id="inventory-to-shopping-cart" data-url="{{ target_url }}"
+        class="btn btn-primary btn-colored" value="{{ related_container }}">
+    Agregar a lista de compras
+</button>
+
+<div id="new-shopping-cart-wrapper" title="Agregar elementos a lista de
+compras">
+    <form method="post" id="create-shopping-cart-from-container-form">
+        <p style="font-weight: bold;">Seleccione o cree una lista de compras</p>
+
+        <div id="container-selector" class="form-check">
+
+            {% for container in containers %}
+                <div class="radio-inline">
+                    <label>
+                        <input name="shopping-cart-id" type="radio"
+                               value="{{ container.pk }}">
+                        {{ container }}
+                        {% if container.owner == request.user %}
+                            <div style="font-size: 0.7em">mía</div>
+                        {% endif %}
+                    </label>
+                </div>
+            {% endfor %}
+
+            <div id="create-new-shopping-cart">
+                <label>
+                    {% if not containers or containers.count == 0 %}
+                    <input type="radio" name="shopping-cart-id"
+                           value="new" checked>
+                    {% else %}
+                        <input type="radio" name="shopping-cart-id"
+                           value="new">
+                    {% endif %}
+                </label>
+                <label>
+                    <input type="text" name="shopping-cart-name"
+                           placeholder="Mi nueva lista de compras">
+                </label>
+            </div>
+
+
+        </div>
+
+        <p style="font-weight: bold;">
+            Indique los productos para agregar a la lista de compras</p>
+
+        <div id="new-item-selection">
+            {% for item in items %}
+                <div class="form-check">
+                    <label>
+                        <input name="item-shopping-cart" type="checkbox"
+                               value="{{ item.product.pk }}" checked>
+                        {{ item }}
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+
+        <button class="btn btn-primary" type="submit">Agregar productos a la lista
+        </button>
+    </form>
+</div>

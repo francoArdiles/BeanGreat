@@ -1,8 +1,8 @@
 from .models import ShoppingCart, ShoppingProduct
-from django.forms import ModelForm, TextInput
+from django import forms
 
 
-class ShoppingCartForm(ModelForm):
+class ShoppingCartForm(forms.ModelForm):
 
     class Meta:
         model = ShoppingCart
@@ -10,11 +10,12 @@ class ShoppingCartForm(ModelForm):
             'name',
         }
         widgets = {
-            'name': TextInput(attrs={'placeholder': 'Nombre de la lista'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Nombre de la '
+                                                          'lista'}),
         }
 
 
-class ShoppingProductForm(ModelForm):
+class ShoppingProductForm(forms.ModelForm):
 
     class Meta:
         model = ShoppingProduct
@@ -24,8 +25,8 @@ class ShoppingProductForm(ModelForm):
             'note',
         )
         widgets = {
-            'quantity': TextInput(attrs={'value': 1, 'min': 1,
-                                         'type': 'number'}),
+            'quantity': forms.TextInput(attrs={'value': 1, 'min': 1,
+                                               'type': 'number'}),
         }
 
     def save(self, container_id=None, commit=True):
@@ -34,3 +35,9 @@ class ShoppingProductForm(ModelForm):
         if commit:
             product.save()
         return product
+
+
+class NewShoppingCart(forms.Form):
+    add_to_shopping_cart = forms.ChoiceField(required=True)
+    name = forms.CharField(max_length=50, required=False)
+    products = forms.CheckboxSelectMultiple()
